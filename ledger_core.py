@@ -4,11 +4,13 @@ def parse_payee(str):
     date = '(?P<date>[\\d\\./-]+)'
     mark = '([!|*] )?'
     payee = '(?P<payee>.*)'
-    m = re.match('^' + date + ' ' + mark + payee, str)
+    m = re.match('^' + date + '(' + ' ' + mark + payee + ')?', str)
     if not m:
-        return ''
+        return None
 
-    return m.group('payee')
+    parsed = m.group('payee')
+
+    return '' if parsed is None else parsed
 
 def parse(jorunal):
     return (
