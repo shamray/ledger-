@@ -30,5 +30,19 @@ class ParsePayee(unittest.TestCase):
     def test_transaction_wrong_string(self):
         self.assertEqual(parse_payee(' expenses:food  $10'), None)
 
+
+class ParseAccountString(unittest.TestCase):
+    def test_account_with_amount(self):
+        self.assertEqual(parse_account_string(' expenses:food  $10'), 'expenses:food')
+
+    def test_account_without_amount(self):
+        self.assertEqual(parse_account_string(' expenses:food'), 'expenses:food')
+
+    def test_account_wide_indent(self):
+        self.assertEqual(parse_account_string('    expenses:food  $10'), 'expenses:food')
+
+    def test_account_wide_spacing(self):
+        self.assertEqual(parse_account_string(' expenses:food    $10'), 'expenses:food')
+
 if __name__ == '__main__':
     unittest.main()

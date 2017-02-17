@@ -12,6 +12,17 @@ def parse_payee(str):
 
     return '' if parsed is None else parsed
 
+def parse_account_string(str):
+    if str[0] != ' ' and str[0] != '\t':
+        return None
+
+    tokens = re.split('  +|\t', str.lstrip())
+    if (len(tokens) < 1):
+        return None
+
+    return tokens[0]
+
+
 def parse(jorunal):
     return (
     ['bought food'],
