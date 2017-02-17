@@ -58,10 +58,10 @@ def parse(jorunal):
     {
         'expenses':
         {
-            'food': {}
+            'food': None
         },
         'assets': {
-            'cash': {}
+            'cash': None
         }
     }
 )

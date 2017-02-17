@@ -8,10 +8,10 @@ class Parse(unittest.TestCase):
         transactions = ['bought food']
         accounts = {
             'expenses': {
-                'food': {}
+                'food': None
             },
             'assets': {
-                'cash': {}
+                'cash': None
             }
         }
         self.assertEqual(parse(journal), (transactions, accounts))
@@ -50,12 +50,14 @@ class ParseAccountString(unittest.TestCase):
     def test_account_with_spaces_with_amount(self):
         self.assertEqual(parse_account_string(' expenses:fast food'), 'expenses:fast food')
 
+
 class ToAccount(unittest.TestCase):
     def test_1_level(self):
         self.assertEqual(to_account('expenses'), {'expenses': None})
 
     def test_2_levels(self):
         self.assertEqual(to_account('expenses:food'), {'expenses': {'food': None}})
+
 
 class MergeDict(unittest.TestCase):
     def test_1_level_no_intersection(self):
