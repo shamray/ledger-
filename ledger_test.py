@@ -22,10 +22,10 @@ class ParsePayee(unittest.TestCase):
         self.assertEqual(parse_payee('2015/10/16 bought food'), 'bought food')
 
     def test_transaction_without_payee_space(self):
-        self.assertEqual(parse_payee('2015/10/16 '), '')
+        self.assertEqual(parse_payee('2015/10/16 '), None)
 
     def test_transaction_without_payee(self):
-        self.assertEqual(parse_payee('2015/10/16'), '')
+        self.assertEqual(parse_payee('2015/10/16'), None)
 
     def test_transaction_wrong_string(self):
         self.assertEqual(parse_payee(' expenses:food  $10'), None)

@@ -11,7 +11,7 @@ def parse_payee(str):
 
     parsed = m.group('payee')
 
-    return '' if parsed is None else parsed
+    return None if parsed == '' else parsed
 
 
 def parse_account_string(str):
