@@ -1,11 +1,19 @@
 import re
 
 
-def parse_payee(str):
+def is_transaction_header(line):
+    return parse_payee(line) is not None
+
+
+def is_payment(line):
+    return parse_account_string(line) is not None
+
+
+def parse_payee(line):
     date = '(?P<date>[\\d\\./-]+)'
     mark = '([!|*] )?'
     payee = '(?P<payee>.*)'
-    m = re.match('^' + date + '(' + ' ' + mark + payee + ')?', str)
+    m = re.match('^' + date + '(' + ' ' + mark + payee + ')?', line)
     if not m:
         return None
 
@@ -14,22 +22,22 @@ def parse_payee(str):
     return None if parsed == '' else parsed
 
 
-def parse_account_string(str):
-    if str == '':
+def parse_account_string(line):
+    if line == '':
         return None
 
-    if str[0] != ' ' and str[0] != '\t':
+    if line[0] != ' ' and line[0] != '\t':
         return None
 
-    tokens = re.split('  +|\t', str.lstrip())
+    tokens = re.split('  +|\t', line.lstrip())
     if len(tokens) < 1:
         return None
 
     return tokens[0]
 
 
-def to_account(str):
-    parts = str.split(':')
+def to_account(line):
+    parts = line.split(':')
     acc = None
 
     for part in reversed(parts):
