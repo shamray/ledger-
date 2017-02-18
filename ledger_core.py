@@ -2,11 +2,14 @@ import re
 
 
 def is_transaction_header(line):
-    return parse_payee(line) is not None
+    date = '(?P<date>[\\d\\./-]+)'
+    print(re.match('^' + date + '.*', line) is not None)
+    return re.match('^' + date + '.*', line) is not None
 
 
-def is_payment(line):
-    return parse_account_string(line) is not None
+def is_posting(line):
+    print(re.match('^' + ' |\\t' + '.*', line) is not None)
+    return re.match('^' + ' |\\t' + '.*', line) is not None
 
 
 def parse_payee(line):
