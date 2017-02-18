@@ -24,6 +24,7 @@ def parse_account_string(str):
 
     return tokens[0]
 
+
 def to_account(str):
     parts = str.split(':')
     acc = None
@@ -54,14 +55,14 @@ def merge_dict(left, right):
 
 def parse(jorunal):
     return (
-    ['bought food'],
-    {
-        'expenses':
+        ['bought food'],
         {
-            'food': None
-        },
-        'assets': {
-            'cash': None
+            'expenses':
+            {
+                'food': None
+            },
+            'assets': {
+                'cash': None
+            }
         }
-    }
-)
+    )
