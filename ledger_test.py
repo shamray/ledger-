@@ -47,7 +47,7 @@ class ParseAccountString(unittest.TestCase):
     def test_account_with_spaces_with_amount(self):
         self.assertEqual(parse_account_string(' expenses:fast food  $10'), 'expenses:fast food')
 
-    def test_account_with_spaces_with_amount(self):
+    def test_account_with_spaces_without_amount(self):
         self.assertEqual(parse_account_string(' expenses:fast food'), 'expenses:fast food')
 
 
@@ -77,6 +77,12 @@ class MergeDict(unittest.TestCase):
         right = {'fruits': {'apples': None, 'oranges': None}}
 
         self.assertEqual(merge_dict(left, right), {'fruits': {'apples': None, 'oranges': None}, 'veggies': None})
+
+    def test_empty_list(self):
+        left = {'veggies': None}
+        right = {}
+
+        self.assertEqual(merge_dict(left, right), {'veggies': None})
 
 
 if __name__ == '__main__':

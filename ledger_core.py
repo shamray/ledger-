@@ -53,16 +53,15 @@ def merge_dict(left, right):
     return left
 
 
-def parse(jorunal):
-    return (
-        ['bought food'],
-        {
-            'expenses':
-            {
-                'food': None
-            },
-            'assets': {
-                'cash': None
-            }
-        }
-    )
+def parse(journal):
+    payees = []
+    accounts = {}
+
+    for line in journal.splitlines():
+        if not parse_payee(line) is None:
+            payees.append(parse_payee(line))
+        elif not parse_account_string(line) is None:
+            accounts = merge_dict(accounts, to_account(parse_account_string(line)))
+
+    return (payees, accounts)
+
