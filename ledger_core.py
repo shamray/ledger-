@@ -57,14 +57,14 @@ def merge_dict(left, right):
 
 
 def parse(journal):
-    payees = []
+    payees = set()
     accounts = {}
 
     for line in journal.splitlines():
         if not parse_payee(line) is None:
-            payees.append(parse_payee(line))
+            payees.add(parse_payee(line))
         elif not parse_account_string(line) is None:
             accounts = merge_dict(accounts, to_account(parse_account_string(line)))
 
-    return payees, accounts
+    return sorted(list(payees)), accounts
 
