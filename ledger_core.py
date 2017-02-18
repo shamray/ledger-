@@ -15,6 +15,9 @@ def parse_payee(str):
 
 
 def parse_account_string(str):
+    if str == '':
+        return None
+
     if str[0] != ' ' and str[0] != '\t':
         return None
 
@@ -63,5 +66,5 @@ def parse(journal):
         elif not parse_account_string(line) is None:
             accounts = merge_dict(accounts, to_account(parse_account_string(line)))
 
-    return (payees, accounts)
+    return payees, accounts
 

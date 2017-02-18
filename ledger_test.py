@@ -50,6 +50,9 @@ class ParseAccountString(unittest.TestCase):
     def test_account_with_spaces_without_amount(self):
         self.assertEqual(parse_account_string(' expenses:fast food'), 'expenses:fast food')
 
+    def test_empty_string(self):
+        self.assertEqual(parse_account_string(''), None)
+
 
 class ToAccount(unittest.TestCase):
     def test_1_level(self):
