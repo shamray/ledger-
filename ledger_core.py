@@ -3,12 +3,10 @@ import re
 
 def is_transaction_header(line):
     date = '(?P<date>[\\d\\./-]+)'
-    print(re.match('^' + date + '.*', line) is not None)
     return re.match('^' + date + '.*', line) is not None
 
 
 def is_posting(line):
-    print(re.match('^' + ' |\\t' + '.*', line) is not None)
     return re.match('^' + ' |\\t' + '.*', line) is not None
 
 
@@ -79,3 +77,35 @@ def parse(journal):
 
     return sorted(list(payees)), accounts
 
+
+def suggest_completion(content, locations):
+    __is_transaction_header = True
+    __is_posting = True
+
+    for loc in locations:
+        __is_transaction_header = False if not is_transaction_header(loc) else is_transaction_header
+        __is_posting = False if not is_posting(loc) else is_posting
+
+    if __is_posting == __is_transaction_header:
+        return None
+
+    payees, accounts = parse(content)
+    if __is_transaction_header:
+        return payees
+    elif __is_posting:
+        for loc in locations:
+            account = parse_account_string(loc)
+            if account is not None:
+                return accounts.keys()
+
+            account = parse_account_string(account[:account.rfind(':')])
+            while True:
+                if accounts is None:
+                    return None
+
+                if account.keys()[0] not in accounts.keys():
+                    return accounts.keys()
+                else:
+                    accounts = accounts[account.keys()[0]]
+    else:
+        assert False
