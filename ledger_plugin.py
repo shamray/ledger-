@@ -6,6 +6,7 @@ import os
 sys.path.append(os.path.dirname(__file__))
 import ledger_core as core
 
+
 class LedgerAutocomplete(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, locations):
         is_transaction_header = True
