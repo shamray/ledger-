@@ -13,7 +13,11 @@ class LedgerAutocomplete(sublime_plugin.EventListener):
         content_string = self.content(view)
 
         r = core.suggest_completion(content_string, location_strings)
-        return self.to_autocomplete(r)
+        ac = self.to_autocomplete(r)
+        if ac is None:
+            return []
+        else:
+            return ac, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
 
     @staticmethod
     def content(view):
