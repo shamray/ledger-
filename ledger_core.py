@@ -38,6 +38,9 @@ def parse_account_string(line):
 
 
 def to_account(line):
+    if line is None:
+        return {}
+
     parts = line.split(':')
     acc = None
 
@@ -78,34 +81,45 @@ def parse(journal):
     return sorted(list(payees)), accounts
 
 
+def get_first_key(dic):
+    keys = list(dic.keys())
+    if len(keys) == 0:
+        return None
+    else:
+        return keys[0]
+
+
+def normalize(keys):
+    return [x.strip() for x in keys if x.strip() != '']
+
+
 def suggest_completion(content, locations):
     __is_transaction_header = True
     __is_posting = True
 
     for loc in locations:
         __is_transaction_header = False if not is_transaction_header(loc) else is_transaction_header
-        __is_posting = False if not is_posting(loc) else is_posting
+        __is_posting = False if not is_posting(loc) else __is_posting
 
     if __is_posting == __is_transaction_header:
         return None
 
     payees, accounts = parse(content)
     if __is_transaction_header:
-        return payees
+        return normalize(payees)
     elif __is_posting:
         for loc in locations:
-            account = parse_account_string(loc)
-            if account is not None:
-                return accounts.keys()
+            if parse_account_string(loc) is None:
+                return normalize(accounts.keys())
 
-            account = parse_account_string(account[:account.rfind(':')])
+            account = to_account(parse_account_string(loc[:loc.rfind(':')]))
             while True:
                 if accounts is None:
-                    return None
+                    return normalize(accounts.keys())
 
-                if account.keys()[0] not in accounts.keys():
-                    return accounts.keys()
+                if get_first_key(account) not in accounts.keys():
+                    return normalize(accounts.keys())
                 else:
-                    accounts = accounts[account.keys()[0]]
+                    accounts = accounts[get_first_key(account)]
     else:
         assert False
