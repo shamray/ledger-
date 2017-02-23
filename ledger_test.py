@@ -88,16 +88,23 @@ class MergeDict(unittest.TestCase):
         self.assertEqual(merge_dict(left, right), {'veggies': None})
 
 
-class SuggestCompletionTransactionHead(unittest.TestCase):
+class SuggestCompletionPayee(unittest.TestCase):
     def test_partially_written(self):
         journal = '2015/10/16 bought food\n expenses:food  $10\n assets:cash\n2015/10/17 bo'
         line = '2015/10/17 bo'
-        self.assertEqual(suggest_completion(journal, [line]), ['bo', 'bought food'])
+        self.assertEqual(sorted(suggest_completion(journal, [line])), ['bo', 'bought food'])
 
     def test_empty(self):
         journal = '2015/10/16 bought food\n expenses:food  $10\n assets:cash\n2015/10/17 '
         line = '2015/10/17 bo'
-        self.assertEqual(suggest_completion(journal, [line]), ['bought food'])
+        self.assertEqual(sorted(suggest_completion(journal, [line])), ['bought food'])
+
+
+class SuggestCompletionAccount(unittest.TestCase):
+    def test_partially_written(self):
+        journal = '2015/10/16 bought food\n expenses:food  $10\n assets:cash\n2015/10/17\n '
+        line = ' '
+        self.assertEqual(sorted(suggest_completion(journal, [line])), ['assets', 'expenses'])
 
 
 if __name__ == '__main__':
