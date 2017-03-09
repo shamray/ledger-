@@ -12,6 +12,12 @@ class LedgerAutocomplete(sublime_plugin.EventListener):
         location_strings = [view.substr(view.line(x)) for x in locations]
         content_string = self.content(view)
 
+        try:
+            location = view.sel()[0].begin()
+            print (view.match_selector(location, 'source.ledger'))
+        except IndexError:
+            print('???')
+
         r = core.suggest_completion(content_string, location_strings)
         ac = self.to_autocomplete(r)
         if ac is None:
