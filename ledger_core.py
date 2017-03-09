@@ -108,17 +108,12 @@ def suggest_completion(content, locations):
     if __is_transaction_header:
         return normalize(payees)
     elif __is_posting:
-        print('--- posting')
         for loc in locations:
             if parse_account_string(loc) is None:
-                print('--- 114 none')
                 return normalize(accounts.keys())
 
             account = to_account(parse_account_string(loc[:loc.rfind(':')]))
             while True:
-                print('--- ')
-                print(accounts)
-                print('--- ')
                 if accounts is None:
                     return normalize(accounts.keys())
 
