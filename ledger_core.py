@@ -31,7 +31,7 @@ def parse_account_string(line):
         return None
 
     tokens = re.split('  +|\t', line.lstrip())
-    if len(tokens) < 1:
+    if len(tokens) < 1 or tokens[0] == '':
         return None
 
     return tokens[0]
