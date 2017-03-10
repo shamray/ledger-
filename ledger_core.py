@@ -117,9 +117,10 @@ def suggest_completion(content, locations):
                 if accounts is None:
                     return normalize(accounts.keys())
 
-                if get_first_key(account) not in accounts.keys():
+                if account is None or get_first_key(account) not in accounts.keys():
                     return normalize(accounts.keys())
                 else:
                     accounts = accounts[get_first_key(account)]
+                    account = account[get_first_key(account)]
     else:
         assert False

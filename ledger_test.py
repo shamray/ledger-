@@ -106,6 +106,23 @@ class SuggestCompletionAccount(unittest.TestCase):
         line = ' '
         self.assertEqual(sorted(suggest_completion(journal, [line])), ['assets', 'expenses'])
 
+    def test_partially_written_doublespace(self):
+        journal = '2015/10/16 bought food\n expenses:food  $10\n assets:cash\n2015/10/17\n  '
+        line = '  '
+        self.assertEqual(sorted(suggest_completion(journal, [line])), ['assets', 'expenses'])
+
+    def test_partially_written_1levle(self):
+        journal = '2015/10/16 bought food\n expenses:food  $10\n assets:cash\n2015/10/17\n assets:\n '
+        line = ' assets:'
+        print(suggest_completion(journal, [line]))
+        self.assertEqual(sorted(suggest_completion(journal, [line])), ['cash'])
+
+    def test_partially_written_2levels(self):
+        journal = '2015/10/16 bought food\n expenses:food  $10\n assets:cards:primary\n2015/10/17\n assets:cards:\n '
+        line = ' assets:cards:'
+        print(suggest_completion(journal, [line]))
+        self.assertEqual(sorted(suggest_completion(journal, [line])), ['primary'])
+
 
 if __name__ == '__main__':
     unittest.main()
